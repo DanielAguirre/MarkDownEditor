@@ -23,11 +23,12 @@ This folder contains the api used in the application consist of and server bubil
 ```
     $ cd mardkdownServer
     $ docker-compose up -d
-    $ npm run dev
+    $ npm run start
 ```
 
 this will raise up a mongodb server and the  hhttp server in the port 3001
 
 
 ###Video
+
 [Link to te video](https://drive.google.com/file/d/1_mvfySg0NTpEtEt7zEZeuzRpQkmDkMuE/view)
