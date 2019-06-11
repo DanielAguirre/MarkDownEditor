@@ -26,8 +26,8 @@ This folder contains the api used in the application consist of and server bubil
     $ npm run start
 ```
 
-this will raise up a mongodb server and the  hhttp server in the port 3001
-
+this will raise up a mongodb server and the  http server in the port 3001
+[Screen SHoot][screen_shot.png]
 
 ###Video
 
