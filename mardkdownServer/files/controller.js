@@ -10,9 +10,10 @@ const FileController = {
 
     },
     async saveFile(req,res) {
-        const query = {uuid:req.body.uuid};
+        const {data} = req.body;
+        const query = {uuid:data.uuid};
         const fileDocument = req.body.data;
-        const options = { upsert: true, new: true};
+        const options = {  upsert: true, new: true};
         try{
             const file = await fileModel.findOneAndUpdate(query, fileDocument, options)
 
@@ -26,9 +27,8 @@ const FileController = {
         res.status(201).json({file})
     },
     async deleteFile(req, res) {
-        console.log('params',req.params)
         const query = { uuid: req.params.id };
-        await fileModel.findByIdAndRemove(query)
+        await fileModel.deleteOne(query)
         res.status(200).json()
     },
     async deleteAll(req,res) {

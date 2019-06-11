@@ -8,9 +8,11 @@ export const initialState = {
         editable: false,
         edited: false
     },
+    on:false,
+    currentModal:''
 }
 
-let reducer = (state, action) => {
+let reducer = (state=initialState, action) => {
     let actualFile;
     switch(action.type) {
         case 'CREATE_FILE':
@@ -44,14 +46,13 @@ let reducer = (state, action) => {
                 actualFile
             }
         case 'SAVE_FILE': {
-
             actualFile = state.actualFile;
             actualFile.lastChange = new Date();
             actualFile.edited = false;
-            // if(!actualFile.uuid) {
-            actualFile.uuid = uuidv4()
-            // }
-            console.log('pasa aqui')
+            if(!actualFile.uuid) {
+                actualFile.uuid = uuidv4()
+            }
+
             if(state.files.some(file => file.uuid === actualFile.uuid)){
                 state.files.map(file => {
                     if(file.uuid === actualFile.uuid){
@@ -78,7 +79,7 @@ let reducer = (state, action) => {
             return {
                 ...state,
                 files,
-                modalDeleteFileIsOpen: false
+                currentModal: null
             }
 
         case 'ERASE_AND_CREATE_NEW_FILE':
@@ -90,27 +91,7 @@ let reducer = (state, action) => {
                     editable: false,
                     edited: false
                 },
-                modalIsOpen: false
-            } 
-        case 'OPEN_MODAL': 
-            return {
-                ...state,
-                modalIsOpen: true
-            }
-        case 'CLOSE_MODAL':
-            return {
-                ...state,
-                modalIsOpen: false
-            }
-        case 'OPEN_MODAL_DELETE_FILE':
-                return {
-                    ...state,
-                    modalDeleteFileIsOpen: true
-                }
-        case 'CLOSE_MODAL_DELETE_FILE':
-            return {
-                ...state,
-                modalDeleteFileIsOpen: false
+                currentModal: false
             }
         case 'FETCHING_FILES':
             return {
@@ -128,6 +109,28 @@ let reducer = (state, action) => {
             return {
                 ...state,
                 actualFile: file[0]
+            }
+        case 'OPEN_MODAL':
+            return {
+                ...state,
+                fileId: action.uuid,
+                currentModal: action.modalType
+            }
+        case 'CLOSE_MODAL':
+            return {
+                ...state,
+                currentModal: null
+            }
+        case 'ERASE_AND_READ_NEW_FILE':
+             console.log(action.uuid, state.files)
+            const readFile = state.files.filter(file => {
+                return file.uuid === action.uuid
+            });
+            return {
+                ...state,
+                actualFile: readFile[0],
+                modalReadFileIsOpen: false,
+                currentModal: null
             }
         default: 
             return state

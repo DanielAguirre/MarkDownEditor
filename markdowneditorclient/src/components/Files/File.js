@@ -3,59 +3,45 @@ import styled from 'styled-components';
 import { ReactComponent as FileIcon } from '../../Icons/documento.svg'
 import { ReactComponent as GarbageIcon } from '../../Icons/basura.svg';
 import Modal from '../Modal';
+import ModalConductor from '../Modals/ModalConductor';
 import {PrimaryButton, DangerButton, CloseButton} from '../Buttons';
 import { EditorContext } from '../../Context';
 import api from '../../api';
 
-export default ({name, editedAt, id}) => {
-  const {state, dispatch } = useContext(EditorContext);
-  
-  const openModal = () => {
-    dispatch({type: 'OPEN_MODAL_DELETE_FILE'})
-  } 
+export default ({
+  name,
+  editedAt,
+  id, 
+  readFile, 
+  openDeleteFileModal, 
+  closeModal, 
+  deleteSelectedFile, 
+  eraseAndReadNewFile
+}) => {
 
-  const deleteFile = async () => {
-    dispatch({type: 'DELETE_FILE', action:{uuid:id}})
-    const response = await api.deleteFile(id)
+  const readeSelectedFile = () => {
+    readFile(id)
   }
-
-  const closeModal = () => {
-    dispatch({type:'CLOSE_MODAL_DELETE_FILE'})
+  const openDeleteMOdal = () => {
+    openDeleteFileModal(id);
   }
-
-  const readFile = () => {
-    if(state.actualFile.edited) {
-      dispatch({type:'OPEN_MODAL'})
-    }
-    else {
-      dispatch({type:'READ_FILE', uuid:id})
-    }
-    
-  }
-
   return (
     <div>
       <ButtonWrapper>
-        <Button onClick={readFile} >
+        <Button onClick={readeSelectedFile} >
           <FileIcon />
         </Button>
-        <Button onClick={openModal}>
+        <Button onClick={openDeleteMOdal}>
           <GarbageIcon />
         </Button>
       </ButtonWrapper>
       <TimeWrapper> {editedAt} </TimeWrapper>
       <TitleWrapper> {name} </TitleWrapper>
-      <Modal
-        on={state.modalDeleteFileIsOpen}
-        toggle={closeModal}
-      >
-        <div>
-          <CloseButton onClick={closeModal}>X</CloseButton>
-          <p>Do you want to delete this file?</p>
-          <PrimaryButton onClick={deleteFile}>Yes</PrimaryButton>
-          <DangerButton onClick={closeModal}>No</DangerButton>
-        </div>
-      </Modal>
+      <ModalConductor 
+        closeModal={closeModal} 
+        eraseAndReadNewFile={eraseAndReadNewFile} 
+        deleteSelectedFile={deleteSelectedFile} />
+
     </div>
   )
 }

@@ -10,7 +10,7 @@ urls.route('/api/file')
     ;
 
 urls.route('/api/file/:id')
-     .delete(userController.deleteFile)
+     .delete(userController.deleteAll)
 
 
 module.exports =urls;

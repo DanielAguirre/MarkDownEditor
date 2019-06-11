@@ -30,4 +30,4 @@ this will raise up a mongodb server and the  hhttp server in the port 3001
 
 
 ###Video
-Pending...
+[Link to te video](https://drive.google.com/file/d/1_mvfySg0NTpEtEt7zEZeuzRpQkmDkMuE/view)

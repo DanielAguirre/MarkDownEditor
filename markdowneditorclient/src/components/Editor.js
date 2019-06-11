@@ -21,7 +21,7 @@ const Editor = () => {
     <EditorWrapper>
       <Actions />
       <TitleWrapper>
-        <label for='title'>Title:</label>
+        <label htmlFor='title'>Title:</label>
         <input 
           id='title'
           type="text"
